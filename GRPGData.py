@@ -2,6 +2,7 @@ import pygame
 import random
 import Player
 import walls
+import baddie
 
 class RPGData:
 
@@ -12,12 +13,17 @@ class RPGData:
         self.speed = 3
         self.player = Player.Player(self.width/2,self.height/2,10,10)
         self.walls = walls.Walls(self.width,self.height)
+        self.baddies = []
+        self.baddies.append(baddie.Baddie(self.width-100,100,20,20))
         return
 
     def evolve(self, keys, newkeys, buttons, newbuttons, mouse_position):
 
-
         if self.player.alive:
+            s_x = self.player.x + self.player.width
+            s_y = self.player.y + ((self.player.height + self.player.sword_height)/2)
+            s_w = self.player.sword_width
+            s_h = self.player.sword_height
             if pygame.K_UP in keys and self.player.y >= 0:
                 self.player.move_y(-1 * self.speed)
                 if self.walls.hitRectangle(self.player.x,self.player.y,self.player.width,self.player.height):
@@ -35,14 +41,16 @@ class RPGData:
                 if self.walls.hitRectangle(self.player.x,self.player.y,self.player.width,self.player.height):
                     self.player.move_x(-1 * self.speed)
             if pygame.K_SPACE in keys:
-                s_x = self.player.x + self.player.width
-                s_y = self.player.y + ((self.player.height + self.player.sword_height)/2)
-                s_w = self.player.sword_width
-                s_h = self.player.sword_height
+                
                 if not self.walls.hitRectangle(s_x,s_y,s_w,s_h):
                     self.player.sword = True
             if pygame.K_SPACE not in keys:
                 self.player.sword = False
+                
+            if self.player.sword:
+                for b in self.baddies:
+                    if b.hitRectangle(s_x,s_y,s_w,s_h):
+                        b.setAlive(False)
         return
 
     def draw(self,surface):
@@ -57,6 +65,8 @@ class RPGData:
         if not self.walls.hitRectangle(s_x,s_y,s_w,s_h):
             value = True
         self.player.draw(surface,value)
+        for b in self.baddies:
+            b.draw(surface,False)
         return
     
     def drawTextLeft(self, surface, text, color, x, y,font):
