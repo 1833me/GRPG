@@ -1,6 +1,7 @@
 import pygame
 
 class Player():
+    Zeran was here 
 
     def __init__(self,x,y,width,height,color=(255,255,255),sword_color = (0,255,0)):
         self.x = x
