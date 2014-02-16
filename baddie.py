@@ -26,7 +26,7 @@ class Baddie():
     def draw(self, surface,value):
         if not value:
             self.sword = False
-        if self.alive:
+        if self.alive == True:
             rect = pygame.Rect( self.x, self.y, self.width, self.height )
             pygame.draw.rect(surface, self.color, rect)
             if self.sword:
@@ -35,7 +35,7 @@ class Baddie():
         return
 
     def setAlive(self,alive):
-        self.alvie = alive
+        self.alive = alive
         return
 
     def hitRectangle(self, x2, y2, w2, h2):

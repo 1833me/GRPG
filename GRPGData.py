@@ -54,7 +54,7 @@ class RPGData:
         return
 
     def draw(self,surface):
-        value = False
+        player_value = False
         rect = pygame.Rect(0,0,self.width,self.height)
         surface.fill(self.background_color,rect )
         self.walls.draw(surface)
