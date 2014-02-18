@@ -63,8 +63,8 @@ class RPGData:
         s_w = self.player.sword_width
         s_h = self.player.sword_height
         if not self.walls.hitRectangle(s_x,s_y,s_w,s_h):
-            value = True
-        self.player.draw(surface,value)
+            player_value = True
+        self.player.draw(surface,player_value)
         for b in self.baddies:
             b.draw(surface,False)
         return
